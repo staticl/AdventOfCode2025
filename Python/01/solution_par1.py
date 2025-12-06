@@ -1,37 +1,30 @@
-input = open("input.txt", "r")
+with open("input.txt", "r") as input_file:
+    result_code = 0
+    position = 50
 
-code = 0
-start = 50
+    for line in input_file:
+        direction = 0
+        number_str = ""
 
-for line in input:
-    sign = 0
-    num = ""
-    
-    for c in line:
-        if(c == "R"):
-            sign = 1
-        elif(c == "L"):
-            sign = -1
-        else:
-           num += c
-    
-    num = num.strip()
+        for c in line:
+            if (c == "R"):
+                direction = 1
+            elif (c == "L"):
+                direction = -1
+            else:
+                number_str += c
 
-    value = int(num)
+        number_str = number_str.strip()
+        value = int(number_str)
 
-    start += sign*(value % 100)
+        position += direction * (value % 100)
 
-    if not (0 <= start < 100): 
-        start = start + sign*(-1)*100          
-    
-    if(start == 0):
-        code += 1  
+        if not (0 <= position < 100):
+            position += direction * (-1) * 100
+
+        if (position == 0):
+            result_code += 1
 
 
-input.close()
-
-output = open("output_par1.txt", "w")
-
-output.write(str(code))
-
-output.close()
+with open("output_par1.txt", "w") as output_file:
+    output_file.write(str(result_code))
