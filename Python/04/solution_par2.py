@@ -1,18 +1,19 @@
 with open("input.txt", "r") as input_file:
     input_lines = []
-    adds = [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]]
-    result = 0    
+    adds = [[-1, -1], [-1, 0], [-1, 1], [0, -1],
+            [0, 1], [1, -1], [1, 0], [1, 1]]
+    result = 0
 
     for line in input_file:
         line = line.strip()
         input_line = []
 
         for char in line:
-            if(char == "@"):
+            if (char == "@"):
                 input_line.append(1)
             else:
                 input_line.append(0)
-        
+
         input_lines.append(input_line)
 
     input_lines_copy = list(input_lines)
@@ -21,20 +22,19 @@ with open("input.txt", "r") as input_file:
     while added_result != 0:
         added_result = 0
 
-        for i in range(len(input_lines[0])):
-            for j in range(len(input_lines)):
+        for i in range(len(input_lines)):
+            for j in range(len(input_lines[i])):
                 neighbors = 0
-                if(input_lines[j][i] == 1):
+
+                if (input_lines[i][j] == 1):
                     for k in adds:
-                        try:
-                            if((j+k[0] >= 0) and (i+k[1] >= 0) and (input_lines[j+k[0]][i+k[1]] == 1)):
-                                    neighbors += 1
-                        except IndexError:
-                            continue
-                    if(neighbors <= 3):
-                        input_lines_copy[j][i] = 0
+                        if ((0 <= i + k[0] <= len(input_lines) - 1) and (0 <= j + k[1] <= len(input_lines[i]) - 1) and (input_lines[i + k[0]][j + k[1]] == 1)):
+                            neighbors += 1
+
+                    if (neighbors <= 3):
+                        input_lines_copy[i][j] = 0
                         added_result += 1
-        
+
         result += added_result
         input_lines = list(input_lines_copy)
 
